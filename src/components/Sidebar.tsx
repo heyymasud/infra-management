@@ -1,30 +1,7 @@
 import { type DragEvent } from 'react';
-import {
-  Globe,
-  Server,
-  Database,
-  Shield,
-  Cloud,
-  MemoryStick,
-  MessageSquare,
-  Network,
-  GripVertical,
-  type LucideProps,
-} from 'lucide-react';
+import { GripVertical } from 'lucide-react';
 import type { InfraNodeType } from '../types';
-import { NODE_PALETTE } from '../types';
-
-// ── Icon Map ───────────────────────────────────────────────────────────────
-const ICON_MAP: Record<InfraNodeType, React.ComponentType<LucideProps>> = {
-  webServer: Globe,
-  appServer: Server,
-  database: Database,
-  loadBalancer: Network,
-  firewall: Shield,
-  cloud: Cloud,
-  cache: MemoryStick,
-  messageQueue: MessageSquare,
-};
+import { NODE_PALETTE } from '../config';
 
 // ── Sidebar Component ──────────────────────────────────────────────────────
 export default function Sidebar() {
@@ -42,7 +19,7 @@ export default function Sidebar() {
 
       <div className="sidebar__list">
         {NODE_PALETTE.map((item) => {
-          const Icon = ICON_MAP[item.type];
+          const Icon = item.icon;
           return (
             <div
               key={item.type}

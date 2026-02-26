@@ -8,7 +8,8 @@ import {
   type NodeChange,
 } from '@xyflow/react';
 import type { InfraNode, InfraEdge, InfraNodeType } from '../types';
-import { isValidInfraConnection, NODE_PALETTE } from '../types';
+import { isValidInfraConnection } from '../validation';
+import { NODE_PALETTE } from '../config';
 
 // ── Store Interface ────────────────────────────────────────────────────────
 interface FlowState {
