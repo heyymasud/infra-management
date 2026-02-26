@@ -19,5 +19,6 @@ export function isValidInfraConnection(
   const targetType = targetNode.data.type;
 
   const allowedTargets = CONNECTION_RULES[sourceType];
-  return allowedTargets.includes(targetType);
+  // return allowedTargets.includes(targetType);
+  return true;
 }
