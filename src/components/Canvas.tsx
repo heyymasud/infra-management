@@ -11,7 +11,7 @@ import '@xyflow/react/dist/style.css';
 
 import InfraNode from './nodes/InfraNode';
 import AnimatedEdge from './edges/AnimatedEdge';
-import Toolbar from './Toolbar';
+// import Toolbar from './Toolbar';
 import { useFlowStore } from '../store/useFlowStore';
 import type { InfraNodeType } from '../types';
 

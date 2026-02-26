@@ -1,6 +1,6 @@
 import type { Connection } from '@xyflow/react';
 import type { InfraNode } from './types';
-import { CONNECTION_RULES } from './config';
+// import { CONNECTION_RULES } from './config';
 
 // ── Connection Validation ──────────────────────────────────────────────────
 export function isValidInfraConnection(
@@ -15,10 +15,10 @@ export function isValidInfraConnection(
   // Prevent self-connections
   if (connection.source === connection.target) return false;
 
-  const sourceType = sourceNode.data.type;
-  const targetType = targetNode.data.type;
+  // const sourceType = sourceNode.data.type;
+  // const targetType = targetNode.data.type;
 
-  const allowedTargets = CONNECTION_RULES[sourceType];
+  // const allowedTargets = CONNECTION_RULES[sourceType];
   // return allowedTargets.includes(targetType);
   return true;
 }
