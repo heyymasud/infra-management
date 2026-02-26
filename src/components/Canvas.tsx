@@ -104,7 +104,7 @@ export default function Canvas() {
         />
       </ReactFlow>
 
-      <Toolbar />
+      {/* <Toolbar /> */}
     </div>
   );
 }
