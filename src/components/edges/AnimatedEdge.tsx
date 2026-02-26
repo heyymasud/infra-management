@@ -31,7 +31,7 @@ export default function AnimatedEdge({
       markerEnd={markerEnd}
       style={{
         ...style,
-        stroke: '#94a3b8',
+        stroke: 'var(--color-edge)',
         strokeWidth: 2,
         strokeDasharray: '6 3',
         animation: 'dash-flow 1s linear infinite',
