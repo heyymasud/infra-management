@@ -1,76 +1,37 @@
-import { useEffect, useRef, useCallback } from 'react';
 import { Pencil, Copy, Trash2 } from 'lucide-react';
-import { useFlowStore } from '../store/useFlowStore';
+import { Button } from './ui/Button';
+import { useContextMenu } from '../hooks/useContextMenu';
 
 export default function ContextMenu() {
-  const contextMenu = useFlowStore((s) => s.contextMenu);
-  const closeContextMenu = useFlowStore((s) => s.closeContextMenu);
-  const setEditingNode = useFlowStore((s) => s.setEditingNode);
-  const duplicateNode = useFlowStore((s) => s.duplicateNode);
-  const deleteNode = useFlowStore((s) => s.deleteNode);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  const handleEdit = useCallback(() => {
-    if (contextMenu) setEditingNode(contextMenu.nodeId);
-  }, [contextMenu, setEditingNode]);
-
-  const handleDuplicate = useCallback(() => {
-    if (contextMenu) {
-      duplicateNode(contextMenu.nodeId);
-      closeContextMenu();
-    }
-  }, [contextMenu, duplicateNode, closeContextMenu]);
-
-  const handleDelete = useCallback(() => {
-    if (contextMenu) {
-      deleteNode(contextMenu.nodeId);
-    }
-  }, [contextMenu, deleteNode]);
-
-  // Close on ESC
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeContextMenu();
-    };
-    if (contextMenu) window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [contextMenu, closeContextMenu]);
-
-  // Close on outside click
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        closeContextMenu();
-      }
-    };
-    if (contextMenu) {
-      // Delay to avoid closing immediately from the context menu trigger
-      requestAnimationFrame(() => window.addEventListener('mousedown', onClick));
-    }
-    return () => window.removeEventListener('mousedown', onClick);
-  }, [contextMenu, closeContextMenu]);
+  const {
+    contextMenu,
+    menuRef,
+    handleEdit,
+    handleDuplicate,
+    handleDelete
+  } = useContextMenu();
 
   if (!contextMenu) return null;
 
   return (
     <div
       ref={menuRef}
-      className="context-menu"
+      className="fixed z-90 min-w-[160px] p-1 bg-surface-glass-strong backdrop-blur-lg border border-border rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.06)] animate-[ctx-in_0.15s_var(--ease-smooth)]"
       style={{ top: contextMenu.y, left: contextMenu.x }}
     >
-      <button className="context-menu__item" onClick={handleEdit}>
+      <Button variant="menuItem" onClick={handleEdit}>
         <Pencil size={14} />
         <span>Edit</span>
-      </button>
-      <button className="context-menu__item" onClick={handleDuplicate}>
+      </Button>
+      <Button variant="menuItem" onClick={handleDuplicate}>
         <Copy size={14} />
         <span>Duplicate</span>
-      </button>
-      <div className="context-menu__divider" />
-      <button className="context-menu__item context-menu__item--danger" onClick={handleDelete}>
+      </Button>
+      <div className="h-px mx-2 my-1 bg-border-light" />
+      <Button variant="menuItemDanger" onClick={handleDelete}>
         <Trash2 size={14} />
         <span>Delete</span>
-      </button>
+      </Button>
     </div>
   );
 }
