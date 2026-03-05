@@ -39,21 +39,21 @@ function GroupNodeComponent({ id, data, selected }: NodeProps<GroupNodeInstance>
         minWidth={200}
         minHeight={150}
         isVisible={selected}
-        lineClassName="group-node__resizer-line"
-        handleClassName="group-node__resizer-handle"
+        lineClassName="!border-(--group-color)"
+        handleClassName="!w-2 !h-2 !rounded-full !bg-surface !border-2 !border-(--group-color)"
         color={color}
       />
-      <div className="group-node" style={{ '--group-color': color } as React.CSSProperties}>
-        <div className="group-node__header" onDoubleClick={handleDoubleClick}>
+      <div className="w-full h-full min-w-[200px] min-h-[150px] bg-[color-mix(in_srgb,var(--group-color)_4%,var(--color-surface))] border-[1.5px] border-dashed border-[color-mix(in_srgb,var(--group-color)_30%,transparent)] rounded-xl overflow-visible" style={{ '--group-color': color } as React.CSSProperties}>
+        <div className="flex items-center gap-2 py-2 px-3.5 border-b border-dashed border-[color-mix(in_srgb,var(--group-color)_15%,transparent)] cursor-default" onDoubleClick={handleDoubleClick}>
           <div
-            className="group-node__badge"
+            className="px-2 py-0.5 text-[9px] font-bold tracking-[0.06em] uppercase rounded-full shrink-0"
             style={{ backgroundColor: `${color}18`, color }}
           >
             {data.groupType === 'environment' ? 'ENV' : 'LAYER'}
           </div>
           {isEditing ? (
             <input
-              className="group-node__label-input"
+              className="px-1.5 py-0.5 text-[13px] font-semibold text-text-primary bg-surface border-[1.5px] border-accent rounded-sm outline-none w-[160px]"
               value={editLabel}
               onChange={(e) => setEditLabel(e.target.value)}
               onBlur={commitLabel}
@@ -61,7 +61,7 @@ function GroupNodeComponent({ id, data, selected }: NodeProps<GroupNodeInstance>
               autoFocus
             />
           ) : (
-            <span className="group-node__label">{data.label}</span>
+            <span className="text-[13px] font-semibold text-text-primary cursor-default">{data.label}</span>
           )}
         </div>
       </div>

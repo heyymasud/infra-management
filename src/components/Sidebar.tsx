@@ -1,7 +1,8 @@
 import { type DragEvent } from 'react';
-import { GripVertical } from 'lucide-react';
+
 import type { InfraNodeType, GroupType } from '../types';
 import { NODE_PALETTE, GROUP_PALETTE } from '../config';
+import { DraggableItem } from './ui/DraggableItem';
 
 // ── Sidebar Component ──────────────────────────────────────────────────────
 export default function Sidebar() {
@@ -16,70 +17,46 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar__header">
-        <h2 className="sidebar__title">Components</h2>
-        <p className="sidebar__subtitle">Drag to canvas</p>
+    <aside className="w-[280px] min-w-[280px] h-full flex flex-col overflow-y-auto z-10 bg-surface-glass backdrop-blur-[20px] border-r border-border">
+      <div className="px-5 pt-6 pb-4 border-b border-border-light">
+        <h2 className="text-lg font-bold tracking-tight text-text-primary">Components</h2>
+        <p className="text-xs font-medium mt-1 text-text-muted">Drag to canvas</p>
       </div>
 
-      <div className="sidebar__list">
+      <div className="p-3 flex flex-col gap-1.5">
         {NODE_PALETTE.map((item) => {
           const Icon = item.icon;
           return (
-            <div
+            <DraggableItem
               key={item.type}
-              className="sidebar__item"
-              draggable
+              label={item.label}
+              description={item.description}
+              icon={Icon}
+              color={item.color}
               onDragStart={(e) => onDragStartNode(e, item.type)}
-              style={{
-                '--item-color': item.color,
-                '--item-color-light': `${item.color}12`,
-                '--item-color-medium': `${item.color}25`,
-              } as React.CSSProperties}
-            >
-              <GripVertical size={14} className="sidebar__grip" />
-              <div className="sidebar__item-icon" style={{ backgroundColor: `${item.color}15` }}>
-                <Icon size={18} color={item.color} />
-              </div>
-              <div className="sidebar__item-info">
-                <span className="sidebar__item-label">{item.label}</span>
-                <span className="sidebar__item-desc">{item.description}</span>
-              </div>
-            </div>
+            />
           );
         })}
       </div>
 
       {/* Groups Section */}
-      <div className="sidebar__header sidebar__header--section">
-        <h2 className="sidebar__title">Groups</h2>
-        <p className="sidebar__subtitle">Drag to canvas, then place nodes inside</p>
+      <div className="px-5 pb-4 border-b border-border-light mt-1 pt-4 border-t">
+        <h2 className="text-lg font-bold tracking-tight text-text-primary">Groups</h2>
+        <p className="text-xs font-medium mt-1 text-text-muted">Drag to canvas, then place nodes inside</p>
       </div>
 
-      <div className="sidebar__list">
+      <div className="p-3 flex flex-col gap-1.5">
         {GROUP_PALETTE.map((item) => {
           const Icon = item.icon;
           return (
-            <div
+            <DraggableItem
               key={item.groupType}
-              className="sidebar__item"
-              draggable
+              label={item.label}
+              description={item.description}
+              icon={Icon}
+              color={item.color}
               onDragStart={(e) => onDragStartGroup(e, item.groupType)}
-              style={{
-                '--item-color': item.color,
-                '--item-color-light': `${item.color}12`,
-                '--item-color-medium': `${item.color}25`,
-              } as React.CSSProperties}
-            >
-              <GripVertical size={14} className="sidebar__grip" />
-              <div className="sidebar__item-icon" style={{ backgroundColor: `${item.color}15` }}>
-                <Icon size={18} color={item.color} />
-              </div>
-              <div className="sidebar__item-info">
-                <span className="sidebar__item-label">{item.label}</span>
-                <span className="sidebar__item-desc">{item.description}</span>
-              </div>
-            </div>
+            />
           );
         })}
       </div>

@@ -31,7 +31,7 @@ function InfraNodeComponent({ id, data, selected }: NodeProps<InfraNodeInstance>
 
   return (
     <div
-      className="infra-node"
+      className="flex items-center gap-3 py-3 px-4 min-w-[180px] bg-surface-glass-node backdrop-blur-md border-[1.5px] border-border rounded-xl shadow-sm transition-all duration-200 hover:border-(--node-color-medium) hover:shadow-[0_4px_12px_var(--node-color-light)] hover:-translate-y-px data-[selected=true]:border-(--node-color) data-[selected=true]:shadow-[0_4px_16px_var(--node-color-glow),0_0_0_3px_var(--node-color-light)]"
       style={{
         '--node-color': color,
         '--node-color-light': `${color}15`,
@@ -44,20 +44,20 @@ function InfraNodeComponent({ id, data, selected }: NodeProps<InfraNodeInstance>
       <Handle
         type="target"
         position={Position.Left}
-        className="infra-handle"
+        className="w-2.5! h-2.5! bg-handle-bg! border-2! border-handle-border! rounded-full! transition-all duration-150 hover:border-(--node-color)! hover:shadow-[0_0_8px_var(--node-color-glow)] hover:transform-[translate(-50%,-50%)_scale(1.2)]!"
         style={{ borderColor: color }}
       />
 
       {/* Node Content */}
-      <div className="infra-node__icon" style={{ backgroundColor: `${color}15` }}>
+      <div className="w-10 h-10 flex items-center justify-center shrink-0 rounded-[11px]" style={{ backgroundColor: `${color}15` }}>
         {Icon && <Icon size={22} color={color} />}
       </div>
-      <div className="infra-node__info">
-        <div className="infra-node__label-row">
-          <span className="infra-node__label">{data.label}</span>
+      <div className="flex flex-col gap-0.5 min-w-0">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[13px] font-semibold whitespace-nowrap text-text-primary">{data.label}</span>
           {data.environment && (
             <span
-              className="infra-node__env-badge"
+              className="text-[8px] font-bold uppercase px-1.5 py-px rounded-full whitespace-nowrap leading-tight tracking-[0.04em]"
               style={{
                 backgroundColor: `${ENV_COLORS[data.environment] ?? '#94a3b8'}14`,
                 color: ENV_COLORS[data.environment] ?? '#94a3b8',
@@ -68,11 +68,11 @@ function InfraNodeComponent({ id, data, selected }: NodeProps<InfraNodeInstance>
           )}
         </div>
         {hasExtra ? (
-          <span className="infra-node__meta">
+          <span className="text-[10px] font-medium whitespace-nowrap text-text-muted font-mono">
             {data.hostname}{data.hostname && data.ipAddress ? ' · ' : ''}{data.ipAddress}
           </span>
         ) : (
-          <span className="infra-node__type">{paletteItem?.description}</span>
+          <span className="text-[10.5px] font-normal whitespace-nowrap text-text-muted">{paletteItem?.description}</span>
         )}
       </div>
 
@@ -80,7 +80,7 @@ function InfraNodeComponent({ id, data, selected }: NodeProps<InfraNodeInstance>
       <Handle
         type="source"
         position={Position.Right}
-        className="infra-handle"
+        className="w-2.5! h-2.5! bg-handle-bg! border-2! border-handle-border! rounded-full! transition-all duration-150 hover:border-(--node-color)! hover:shadow-[0_0_8px_var(--node-color-glow)] hover:transform-[translate(50%,-50%)_scale(1.2)]!"
         style={{ borderColor: color }}
       />
     </div>
