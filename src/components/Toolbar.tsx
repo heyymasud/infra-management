@@ -1,78 +1,40 @@
-import { useRef } from 'react';
 import { useReactFlow } from '@xyflow/react';
-import {
-  ZoomIn,
-  ZoomOut,
-  Maximize,
-  Download,
-  Upload,
-  Trash2,
-} from 'lucide-react';
-import { useFlowStore } from '../store/useFlowStore';
+import { ZoomIn, ZoomOut, Maximize, Download, Upload, Trash2 } from 'lucide-react';
+import { useFlowImportExport } from '../hooks/useFlowImportExport';
+import { IconButton } from './ui/IconButton';
 
 export default function Toolbar() {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
-  const exportToJSON = useFlowStore((s) => s.exportToJSON);
-  const importFromJSON = useFlowStore((s) => s.importFromJSON);
-  const clearCanvas = useFlowStore((s) => s.clearCanvas);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { handleExport, handleImportClick, handleFileChange, clearCanvas, fileInputRef } = useFlowImportExport();
 
-  const handleExport = () => {
-    const json = exportToJSON();
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'infrastructure-diagram.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
-  const handleImport = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const content = event.target?.result as string;
-      importFromJSON(content);
-    };
-    reader.readAsText(file);
-
-    // Reset so the same file can be re-imported
-    e.target.value = '';
-  };
 
   return (
-    <div className="toolbar">
-      <button className="toolbar__btn" onClick={() => zoomIn()} title="Zoom In">
+    <div className="absolute top-4 right-4 flex items-center gap-1 p-1.5 z-10 bg-surface-glass-strong backdrop-blur-lg border border-border rounded-xl shadow-xl">
+      <IconButton variant="standard" onClick={() => zoomIn()} title="Zoom In">
         <ZoomIn size={18} />
-      </button>
-      <button className="toolbar__btn" onClick={() => zoomOut()} title="Zoom Out">
+      </IconButton>
+      <IconButton variant="standard" onClick={() => zoomOut()} title="Zoom Out">
         <ZoomOut size={18} />
-      </button>
-      <button className="toolbar__btn" onClick={() => fitView({ padding: 0.2 })} title="Fit View">
+      </IconButton>
+      <IconButton variant="standard" onClick={() => fitView({ padding: 0.2 })} title="Fit View">
         <Maximize size={18} />
-      </button>
+      </IconButton>
 
-      <div className="toolbar__divider" />
+      <div className="w-px h-6 mx-1 bg-border" />
 
-      <button className="toolbar__btn" onClick={handleExport} title="Export JSON">
+      <IconButton variant="action" onClick={handleExport} title="Export JSON">
         <Download size={18} />
-      </button>
-      <button className="toolbar__btn" onClick={handleImport} title="Import JSON">
+      </IconButton>
+      <IconButton variant="action" onClick={handleImportClick} title="Import JSON">
         <Upload size={18} />
-      </button>
+      </IconButton>
 
-      <div className="toolbar__divider" />
+      <div className="w-px h-6 mx-1 bg-border" />
 
-      <button className="toolbar__btn toolbar__btn--danger" onClick={clearCanvas} title="Clear Canvas">
+      <IconButton variant="danger" onClick={clearCanvas} title="Clear Canvas">
         <Trash2 size={18} />
-      </button>
+      </IconButton>
 
       <input
         ref={fileInputRef}
