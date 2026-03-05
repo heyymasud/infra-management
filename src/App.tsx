@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar';
 export default function App() {
   return (
     <ReactFlowProvider>
-      <div className="app">
+      <div className="flex h-full w-full">
         <Sidebar />
         <Canvas />
       </div>
