@@ -7,10 +7,12 @@ import {
   MemoryStick,
   MessageSquare,
   Network,
+  Box,
+  Layers,
 } from 'lucide-react';
-import type { InfraNodeType, NodePaletteItem } from './types';
+import type { InfraNodeType, NodePaletteItem, GroupPaletteItem } from '../types';
 
-// ── Node Palette Config ────────────────────────────────────────────────────
+// Node Palette Config
 export const NODE_PALETTE: NodePaletteItem[] = [
   { type: 'loadBalancer', icon: Network, label: 'Load Balancer', color: '#8b5cf6', description: 'Distributes incoming traffic' },
   { type: 'firewall', icon: Shield, label: 'Firewall', color: '#ef4444', description: 'Network security barrier' },
@@ -22,13 +24,19 @@ export const NODE_PALETTE: NodePaletteItem[] = [
   { type: 'cloud', icon: Cloud, label: 'Cloud Service', color: '#6366f1', description: 'Cloud provider service' },
 ];
 
-// ── Connection Validation Rules ────────────────────────────────────────────
+// Group Palette Config
+export const GROUP_PALETTE: GroupPaletteItem[] = [
+  { groupType: 'environment', icon: Box, label: 'Environment', color: '#8b5cf6', description: 'Environment group (prod, staging…)', defaultWidth: 600, defaultHeight: 400 },
+  { groupType: 'layer', icon: Layers, label: 'Layer', color: '#06b6d4', description: 'Architecture layer (web, app, db…)', defaultWidth: 500, defaultHeight: 300 },
+];
+
+// Connection Validation Rules
 // Maps source node type → allowed target node types
 export const CONNECTION_RULES: Record<InfraNodeType, InfraNodeType[]> = {
   loadBalancer: ['webServer', 'appServer'],
   webServer: ['appServer', 'cache', 'messageQueue'],
   appServer: ['database', 'cache', 'messageQueue', 'appServer'],
-  database: ['cache'],
+  database: ['cache', 'database'],
   firewall: ['loadBalancer', 'webServer', 'appServer', 'database', 'cloud', 'cache', 'messageQueue'],
   cloud: ['loadBalancer', 'webServer', 'appServer', 'database', 'firewall', 'cache', 'messageQueue'],
   cache: ['appServer', 'webServer'],

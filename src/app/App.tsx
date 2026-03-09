@@ -1,11 +1,10 @@
 import { ReactFlowProvider } from '@xyflow/react';
-import Canvas from './components/Canvas';
-import Sidebar from './components/Sidebar';
+import { Canvas, Sidebar } from '../features/diagram';
 
 export default function App() {
   return (
     <ReactFlowProvider>
-      <div className="app">
+      <div className="flex h-full w-full">
         <Sidebar />
         <Canvas />
       </div>
